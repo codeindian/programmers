@@ -21,33 +21,33 @@ public class Truck {
     }
 
     public static int compute(int bridge_length, int weight, int[] truck_weights) {
-        int truck_cnt = truck_weights.length;
-        int[] times = new int[truck_cnt];
-        int timer = 0;
-        int position = 0;
-        int curr_wt = 0;
-        int driving = 0;
-        int complete = 0;
+        int truck_cnt = truck_weights.length; // 대기 중인 트럭 대수
+        int[] times = new int[truck_cnt]; // 트럭별 출발 시간 기록
+        int timer = 0; // 타이머
+        int position = 0; // 첫 번째 트럭의 위치
+        int curr_wt = 0; // 다리 위에 있는 트럭 무게 총합
+        int driving = 0; // 다리 위를 지나고 있는 트럭 대수
+        int complete = 0; // 다리 끝에 도달한 트럭 대수
         int ptr = 0;
 
-        for (int indx = 0; complete != truck_cnt; ) {
-            timer += 1;
-            position += 1;
+        for (int indx = 0; complete != truck_cnt; ) { // 모든 트럭이 다리를 지날 때까지
+            timer += 1; // 1초 증가
+            position += 1; // 위치 1 이동
 
             if (indx < truck_cnt
                     && curr_wt + truck_weights[indx] <= weight
-                    && driving < bridge_length ) {
+                    && driving < bridge_length) {
 
                 curr_wt += truck_weights[indx];
                 driving += 1;
                 times[indx++] = timer;
             }
 
-            if (position == bridge_length) {
+            if (position == bridge_length) { // 트럭이 다리 끝에 도달
                 curr_wt += -truck_weights[ptr];
                 driving += -1;
                 complete += 1;
-                position = run(times, ptr++, bridge_length, driving);
+                position = run(times, ptr++, bridge_length, driving); // 다음 트럭 위치 계산
             }
         }
 
@@ -55,10 +55,10 @@ public class Truck {
     }
 
     public static int run(int[] times, int ptr, int bridge_length, int driving) {
-        if (driving == 0) return 0;
+        if (driving == 0) return 0; // 다리 위를 지나고 있는 트럭이 없다면
 
-        int interval = times[ptr + 1] - times[ptr];
-        int position = bridge_length - interval;
+        int interval = times[ptr + 1] - times[ptr]; // 트럭 간 시간 차이 계산
+        int position = bridge_length - interval; // 시간 차이 만큼 위치 이동
 
         return position;
     }

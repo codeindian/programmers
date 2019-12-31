@@ -30,17 +30,17 @@ public class Printer {
 
 
         for ( ; length != 0; ) {
-            priority = priorities[0];
+            priority = priorities[0]; // 대기목록의 가장 앞에 있는 문서
 
             for (int indx = 1; indx < length; indx++) {
                 if (priority < priorities[indx]) {
-                    flag = false;
+                    flag = false; // 우선순위가 높은 문서가 존재
                     break;
                 }
             }
 
-            if (flag) {
-                if (location == 0) break;
+            if (flag) { // 인쇄한다
+                if (location == 0) break; // 출력하려는 문서가 첫 번째에 도달했을 때
 
                 for (int indx = 1; indx < length; indx++)
                     priorities[indx - 1] = priorities[indx];
@@ -48,9 +48,10 @@ public class Printer {
                 order += 1;
                 length += -1;
                 location += -1;
-            } else {
-                for (int indx = 1; indx < length; indx++)
+            } else { // 인쇄하지 않고 대기목록의 가장 마지막에 넣는다
+                for (int indx = 1; indx < length; indx++) {
                     priorities[indx - 1] = priorities[indx];
+                }
 
                 priorities[length - 1] = priority;
                 flag = true;

@@ -38,21 +38,18 @@ public class MinHeap {
 
         if (ptr == 0) return - 1;
 
-        if (ptr == 1) {
-            data = heap[1];
-            heap[1] = 0;
-        } else {
-            data = heap[1];
-            heap[1] = heap[ptr];
-            heap[ptr--] = 0;
-            heapify(1);
-        }
+        if (ptr == 1) return heap[ptr--];
+
+        data = heap[1];
+        heap[1] = heap[ptr--];
+        heapify(1);
 
         return data;
     }
 
     // 최소힙 구성
     public void build() {
+        // Leaf node가 아닌 Parent node만 heapify()
         for (int indx = ptr / 2; indx > 0; indx--) {
             heapify(indx);
         }
@@ -129,9 +126,13 @@ public class MinHeap {
         return heap[pos];
     }
 
-    public void setHeap(int data, int pos) { this.heap[pos] = data; }
+    public void setHeap(int data, int pos) {
+        this.heap[pos] = data;
+    }
 
-    public int getPtr() { return ptr; }
+    public int getPtr() {
+        return ptr;
+    }
 
     public void setPtr(int ptr) {
         this.ptr += ptr;
